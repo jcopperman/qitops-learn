@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "qitops-learn",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,18 +11,24 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@clerk/remix": "^4.5.11",
+    "@clerk/themes": "^2.2.26",
     "@cloudflare/workers-types": "^4.20250327.0",
+    "@remix-run/cloudflare": "^2.16.3",
     "@remix-run/node": "^2.16.3",
     "@remix-run/react": "^2.16.3",
     "@remix-run/serve": "^2.16.3",
+    "clsx": "^2.1.0",
+    "framer-motion": "^12.6.2",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.3",
     "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
+    "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "autoprefixer": "^10.4.19",
