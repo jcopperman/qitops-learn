@@ -1,15 +1,9 @@
-import type { MetaFunction, LoaderFunction } from "@remix-run/node";
+import type { MetaFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import MainLayout from "~/components/Layout/MainLayout";
 import ProtectedRoute from "~/components/Auth/ProtectedRoute";
 import CourseCard from "~/components/Course/CourseCard";
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "QA Learning Path - QitOps Learn" },
-    { name: "description", content: "Structured learning path for QA Engineers" },
-  ];
-};
 
 interface Course {
   id: string;
@@ -27,9 +21,19 @@ interface CourseCategory {
   courses: Course[];
 }
 
+interface LoaderData {
+  categories: CourseCategory[];
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "QA Learning Path - QitOps Learn" },
+    { name: "description", content: "Structured learning path for QA Engineers" },
+  ];
+};
+
 export const loader: LoaderFunction = async () => {
-  // This will be replaced with actual data fetching later
-  return {
+  const data: LoaderData = {
     categories: [
       {
         title: "QA Fundamentals",
@@ -43,86 +47,16 @@ export const loader: LoaderFunction = async () => {
             duration: "4h 30m",
             level: "Beginner",
             instructor: "Sarah Johnson"
-          },
-          {
-            id: "sdlc-basics",
-            title: "SDLC and Testing Methods",
-            description: "Understanding Software Development Life Cycle and different testing methodologies.",
-            thumbnail: "/course-thumbnails/sdlc.jpg",
-            duration: "5h 15m",
-            level: "Beginner",
-            instructor: "Mike Peters"
-          }
-        ]
-      },
-      {
-        title: "Automation Testing",
-        description: "Master modern test automation tools and frameworks",
-        courses: [
-          {
-            id: "selenium-masterclass",
-            title: "Selenium WebDriver Masterclass",
-            description: "Complete guide to web automation with Selenium WebDriver and JavaScript/Python.",
-            thumbnail: "/course-thumbnails/selenium.jpg",
-            duration: "8h 45m",
-            level: "Intermediate",
-            instructor: "John Doe"
-          },
-          {
-            id: "cypress-testing",
-            title: "Modern E2E Testing with Cypress",
-            description: "Learn end-to-end testing using Cypress framework and best practices.",
-            thumbnail: "/course-thumbnails/cypress.jpg",
-            duration: "6h 30m",
-            level: "Intermediate",
-            instructor: "Emma Wilson"
-          }
-        ]
-      },
-      {
-        title: "API Testing",
-        description: "Learn to test REST, GraphQL, and other API architectures",
-        courses: [
-          {
-            id: "api-testing-fundamentals",
-            title: "API Testing Fundamentals",
-            description: "Master API testing using Postman, REST Assured, and other modern tools.",
-            thumbnail: "/course-thumbnails/api.jpg",
-            duration: "7h 15m",
-            level: "Intermediate",
-            instructor: "Alex Chen"
-          },
-          {
-            id: "graphql-testing",
-            title: "GraphQL API Testing",
-            description: "Advanced techniques for testing GraphQL APIs and mutations.",
-            thumbnail: "/course-thumbnails/graphql.jpg",
-            duration: "5h 45m",
-            level: "Advanced",
-            instructor: "Lisa Zhang"
-          }
-        ]
-      },
-      {
-        title: "Performance Testing",
-        description: "Learn to measure and optimize application performance",
-        courses: [
-          {
-            id: "jmeter-masterclass",
-            title: "Performance Testing with JMeter",
-            description: "Comprehensive guide to performance testing using Apache JMeter.",
-            thumbnail: "/course-thumbnails/jmeter.jpg",
-            duration: "6h 30m",
-            level: "Intermediate",
-            instructor: "David Brown"
           }
         ]
       }
     ]
   };
+
+  return json<LoaderData>(data);
 };
 
-export default function CoursesPage() {
+export default function CoursesIndexPage() {
   const { categories } = useLoaderData<typeof loader>();
 
   return (
@@ -136,7 +70,6 @@ export default function CoursesPage() {
             </p>
           </div>
 
-          {/* Learning Path Categories */}
           {categories.map((category: CourseCategory, index: number) => (
             <section key={index} className="space-y-6">
               <div>
@@ -154,19 +87,9 @@ export default function CoursesPage() {
               </div>
             </section>
           ))}
-
-          {/* Career Path Progress - To be implemented */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mt-8">
-            <h2 className="text-xl font-semibold mb-4">Your Learning Progress</h2>
-            <p className="text-gray-600">
-              Track your progress and earn certificates as you complete each section.
-            </p>
-            {/* Add progress tracking UI here */}
-          </div>
         </div>
       </MainLayout>
     </ProtectedRoute>
   );
 }
-
 
