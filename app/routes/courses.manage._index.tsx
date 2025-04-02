@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/cloudflare";
 import MainLayout from "~/components/Layout/MainLayout";
 import ProtectedRoute from "~/components/Auth/ProtectedRoute";
 import { UserRole } from "~/middleware/auth";

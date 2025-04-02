@@ -1,6 +1,6 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { redirect } from "@remix-run/node";
-import type { DataFunctionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/cloudflare";
+import type { DataFunctionArgs } from "@remix-run/cloudflare";
 
 export enum UserRole {
   STUDENT = "student",

@@ -18,7 +18,7 @@ interface RoadmapStep {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "QitOps Learn - Master QA Engineering" },
+    { title: "QitOps Learn - Master Quality Software Engineering" },
     { name: "description", content: "Follow our structured learning path to become a professional QA Engineer" },
   ];
 };
@@ -85,23 +85,24 @@ const QuestMarker = ({ active, completed }: { active: boolean; completed: boolea
       transition={{ duration: 1.5, repeat: Infinity }}
     />
     {completed ? (
-      <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="w-6 h-6 text-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
       </svg>
     ) : (
-      <span className="text-white font-bold">!</span>
+      <span className="text-gray font-bold">!</span>
     )}
   </motion.div>
 );
 
 export default function Index() {
+  console.log('Rendering Index page, qaRoadmap:', qaRoadmap);
   return (
     <MainLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Master QA Engineering
+            Master Software Quality Engineering
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Follow our structured learning path to become a professional QA Engineer.
@@ -125,59 +126,70 @@ export default function Index() {
 
         {/* Quest-style Career Roadmap */}
         <div className="mt-20 relative py-20 overflow-hidden">
-          <h2 className="text-3xl font-bold text-center mb-20">Your QA Adventure Map</h2>
           
           {/* Background decoration */}
           <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-indigo-50 opacity-50" />
           
           <div className="max-w-7xl mx-auto px-4">
             <div className="relative">
+              {/* Connecting Line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-indigo-200 transform -translate-x-1/2" />
+              
               {qaRoadmap.map((step, index) => (
-                <motion.div
+                <div
                   key={step.id}
                   className="relative mb-32 last:mb-0"
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
                 >
-                  <div className={`flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                  <div className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'} items-center`}>
                     {/* Quest marker */}
-                    <div className={`absolute top-1/2 transform -translate-y-1/2 ${index % 2 === 0 ? 'left-0' : 'right-0'}`}>
+                    <div className="absolute left-1/2 transform -translate-x-1/2">
                       <QuestMarker active={index === 0} completed={false} />
                     </div>
                     
                     {/* Content card */}
-                    <motion.div
-                      className="w-2/3 bg-white rounded-lg shadow-xl p-6 relative z-10 border-2 border-indigo-100"
-                      whileHover={{ scale: 1.02 }}
+                    <div
+                      className={`w-5/12 bg-white rounded-lg shadow-xl p-6 relative ${
+                        index % 2 === 0 ? 'mr-auto' : 'ml-auto'
+                      }`}
                     >
-                      <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                      {/* Level badge */}
+                      <div className="absolute top-4 right-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          step.level === 'Beginner' ? 'bg-green-100 text-green-800' :
+                          step.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {step.level}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl font-bold mb-2 text-gray-800">{step.title}</h3>
                       <p className="text-gray-600 mb-4">{step.description}</p>
                       
                       {/* Courses */}
                       <div className="space-y-2 mb-4">
                         {step.courses.map(course => (
-                          <div key={course.id} className="flex justify-between items-center">
-                            <span className="text-sm">{course.title}</span>
+                          <div key={course.id} className="flex justify-between items-center p-2 rounded hover:bg-gray-50">
+                            <span className="text-sm font-medium text-gray-500">{course.title}</span>
                             <span className="text-sm text-gray-500">{course.duration}</span>
                           </div>
                         ))}
                       </div>
                       
                       {/* Skills */}
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2 mt-4">
                         {step.skills.map(skill => (
                           <span
                             key={skill}
-                            className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm"
+                            className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium"
                           >
                             {skill}
                           </span>
                         ))}
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -187,7 +199,7 @@ export default function Index() {
         <div className="mt-20 text-center">
           <h2 className="text-2xl font-bold text-gray-900">Ready to Start Your QA Journey?</h2>
           <p className="mt-4 text-gray-600">
-            Join thousands of QA professionals who are advancing their careers with QitOps Learn.
+            Join thousands of QA professionals, from Test Analysts to SDETS and QA Architects, who are advancing their careers with QitOps Learn.
           </p>
           <Link
             to="/auth/sign-up"
@@ -200,4 +212,3 @@ export default function Index() {
     </MainLayout>
   );
 }
-

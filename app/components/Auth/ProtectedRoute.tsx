@@ -1,31 +1,49 @@
-import { useAuth, useUser } from "@clerk/remix";
+import { useUser } from "@clerk/remix";
 import { Navigate } from "@remix-run/react";
-import type { UserRole } from "~/middleware/auth";
+import { UserRole, hasRole } from "~/middleware/auth";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles?: UserRole[];
+  redirectTo?: string;
 }
 
-export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
-  const { isLoaded, isSignedIn } = useAuth();
-  const { user } = useUser();
-  const userRole = user?.publicMetadata?.role as UserRole | undefined;
+export default function ProtectedRoute({
+  children,
+  allowedRoles = [],
+  redirectTo = "/auth/sign-in"
+}: ProtectedRouteProps) {
+  const { isLoaded, user } = useUser();
 
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
 
-  if (!isSignedIn) {
-    return <Navigate to="/auth/sign-in" />;
+  if (!user) {
+    return <Navigate to={redirectTo} />;
   }
 
-  if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
-    return <Navigate to="/" />;
+  // If roles are specified, check if user has required role
+  if (allowedRoles.length > 0) {
+    const userHasRequiredRole = hasRole(
+      {
+        id: user.id,
+        email: user.emailAddresses[0]?.emailAddress || '',
+        role: (user.publicMetadata.role as UserRole) || UserRole.STUDENT
+      },
+      allowedRoles
+    );
+
+    if (!userHasRequiredRole) {
+      return <Navigate to="/" />;
+    }
   }
 
   return <>{children}</>;
 }
+
+
+
 
 
 

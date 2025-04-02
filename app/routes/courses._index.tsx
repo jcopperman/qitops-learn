@@ -57,7 +57,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function CoursesIndexPage() {
-  const { categories } = useLoaderData<typeof loader>();
+  const { categories } = useLoaderData<LoaderData>();
 
   return (
     <ProtectedRoute>
@@ -92,4 +92,5 @@ export default function CoursesIndexPage() {
     </ProtectedRoute>
   );
 }
+
 

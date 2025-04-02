@@ -64,7 +64,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function CourseDetailPage() {
-  const { course } = useLoaderData<typeof loader>();
+  const { course } = useLoaderData<LoaderData>();
 
   return (
     <ProtectedRoute>

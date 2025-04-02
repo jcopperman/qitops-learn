@@ -12,10 +12,14 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
-      serverModuleFormat: "esm",
-      serverPlatform: "neutral"
+      serverModuleFormat: "esm"
     }),
     tsconfigPaths(),
   ],
+  optimizeDeps: {
+    include: ['framer-motion'],
+  },
 });
+
+
 
