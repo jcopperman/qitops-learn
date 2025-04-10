@@ -4,7 +4,8 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
+    "build": "remix vite:build && npm run copy-redirects",
+    "copy-redirects": "echo \"/* /index.html 200\" > build/client/_redirects && cp build/client/index.html build/client/404.html",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "netlify dev",
