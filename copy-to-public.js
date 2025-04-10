@@ -20,7 +20,7 @@ function copyDir(source, target) {
   for (const file of files) {
     const sourcePath = path.join(source, file);
     const targetPath = path.join(target, file);
-    
+
     const stats = fs.statSync(sourcePath);
     if (stats.isDirectory()) {
       copyDir(sourcePath, targetPath);
@@ -53,3 +53,22 @@ fs.writeFileSync(
   JSON.stringify(routesConfig, null, 2)
 );
 console.log('✅ Created _routes.json in public directory');
+
+// Create a simple index.html file if it doesn't exist
+if (!fs.existsSync('./public/index.html')) {
+  const indexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QitOps Learn</title>
+  <meta http-equiv="refresh" content="0;url=/" />
+</head>
+<body>
+  <p>Redirecting to the home page...</p>
+</body>
+</html>`;
+
+  fs.writeFileSync('./public/index.html', indexHtml);
+  console.log('✅ Created index.html in public directory');
+}

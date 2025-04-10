@@ -1,9 +1,8 @@
 name = "qitops-learn"
 compatibility_date = "2024-03-29"
 
-# Configure static assets
-[site]
-bucket = "./public"
+# Configure Pages
+pages_build_output_dir = "public"
 
 [[d1_databases]]
 binding = "DB"
