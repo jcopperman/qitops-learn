@@ -8,6 +8,10 @@ interface CourseCardProps {
   duration: string;
   level: 'Beginner' | 'Intermediate' | 'Advanced';
   instructor: string;
+  disciplines: {
+    slug: string;
+    name: string;
+  }[];
 }
 
 export default function CourseCard({
@@ -17,7 +21,8 @@ export default function CourseCard({
   thumbnail,
   duration,
   level,
-  instructor
+  instructor,
+  disciplines
 }: CourseCardProps) {
   return (
     <Link to={`/courses/${id}`} className="group">
@@ -37,7 +42,22 @@ export default function CourseCard({
             {title}
           </h3>
           <p className="text-sm text-gray-600 mt-1 line-clamp-2">{description}</p>
-          <div className="mt-4 flex items-center justify-between">
+
+          {/* Discipline Tags */}
+          <div className="mt-3 flex flex-wrap gap-1">
+            {disciplines.map(discipline => (
+              <Link
+                key={discipline.slug}
+                to={`/disciplines/${discipline.slug}`}
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100"
+              >
+                {discipline.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-3 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <span className={`text-xs px-2 py-1 rounded ${
                 level === 'Beginner' ? 'bg-green-100 text-green-800' :
