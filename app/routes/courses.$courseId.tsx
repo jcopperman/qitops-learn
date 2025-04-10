@@ -1,7 +1,8 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { useLoaderData, Link } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import MainLayout from "~/components/Layout/MainLayout";
+import ProtectedRoute from "~/components/Auth/ProtectedRoute";
 
 interface Lesson {
   title: string;
@@ -22,10 +23,6 @@ interface CourseDetail {
   level: 'Beginner' | 'Intermediate' | 'Advanced';
   instructor: string;
   chapters: Chapter[];
-  disciplines: {
-    slug: string;
-    name: string;
-  }[];
 }
 
 interface LoaderData {
@@ -48,7 +45,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     id: params.courseId,
     title: "Selenium Fundamentals",
     description: "Master automated testing with Selenium WebDriver. Learn how to create robust test scripts and frameworks.",
-    thumbnail: "https://placehold.co/600x400/indigo/white?text=Selenium",
+    thumbnail: "/course-thumbnails/selenium.jpg",
     duration: "6h 30m",
     level: "Beginner",
     instructor: "John Doe",
@@ -60,9 +57,6 @@ export const loader: LoaderFunction = async ({ params }) => {
           { title: "Setting Up Your Environment", duration: "15:00" },
         ]
       },
-    ],
-    disciplines: [
-      { slug: "test-automation", name: "Test Automation Engineering" }
     ]
   };
 
@@ -73,25 +67,13 @@ export default function CourseDetailPage() {
   const { course } = useLoaderData<LoaderData>();
 
   return (
-    <MainLayout>
-      <div className="max-w-4xl mx-auto py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-          <p className="text-gray-600">{course.description}</p>
-
-          {/* Discipline Tags */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {course.disciplines.map(discipline => (
-              <Link
-                key={discipline.slug}
-                to={`/disciplines/${discipline.slug}`}
-                className="text-sm px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100"
-              >
-                {discipline.name}
-              </Link>
-            ))}
+    <ProtectedRoute>
+      <MainLayout>
+        <div className="max-w-4xl mx-auto py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
+            <p className="text-gray-600">{course.description}</p>
           </div>
-        </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="col-span-2">
@@ -120,15 +102,15 @@ export default function CourseDetailPage() {
                 <h2 className="text-lg font-semibold mb-4">Course Details</h2>
                 <div className="space-y-3">
                   <div>
-                    <div className="text-sm text-gray-500">Duration</div>
+                    <label className="text-sm text-gray-500">Duration</label>
                     <p>{course.duration}</p>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Level</div>
+                    <label className="text-sm text-gray-500">Level</label>
                     <p>{course.level}</p>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Instructor</div>
+                    <label className="text-sm text-gray-500">Instructor</label>
                     <p>{course.instructor}</p>
                   </div>
                 </div>
@@ -137,6 +119,7 @@ export default function CourseDetailPage() {
           </div>
         </div>
       </MainLayout>
+    </ProtectedRoute>
   );
 }
 

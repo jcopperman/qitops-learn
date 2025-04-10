@@ -31,46 +31,22 @@ export default function Index() {
           </div>
         </div>
 
-        {/* How It Works Section */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">How QitOps Learn Works</h2>
-          <div className="grid gap-8 md:grid-cols-3 text-center">
-            <div>
-              <div className="text-4xl mb-4">📚</div>
-              <h3 className="text-lg font-semibold text-gray-800">Learn</h3>
-              <p className="text-sm text-gray-600 mt-2">Follow structured lessons built around QA domains and career paths.</p>
-            </div>
-            <div>
-              <div className="text-4xl mb-4">🧪</div>
-              <h3 className="text-lg font-semibold text-gray-800">Practice</h3>
-              <p className="text-sm text-gray-600 mt-2">Apply your skills in sandbox environments, projects, and mock systems.</p>
-            </div>
-            <div>
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-lg font-semibold text-gray-800">Grow</h3>
-              <p className="text-sm text-gray-600 mt-2">Earn recognition, build your portfolio, and prepare for real-world roles.</p>
-            </div>
-          </div>
-        </div>
-
         {/* Disciplines Section */}
         <div className="mb-24">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">QA is Not One Path — It's a Universe</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { slug: "manual-testing", title: "Manual Testing & Analysis", description: "Design test cases, perform exploratory testing, and ensure product quality with a critical eye." },
-              { slug: "test-automation", title: "Test Automation Engineering", description: "Build scalable, maintainable test frameworks for web, API, and mobile platforms." },
-              { slug: "performance-testing", title: "Performance & Load Testing", description: "Simulate traffic and optimize systems for resilience, speed, and uptime." },
-              { slug: "qa-leadership", title: "QA Leadership & Strategy", description: "Define vision, mentor teams, and align QA goals to business outcomes." },
-              { slug: "security-testing", title: "Security Testing", description: "Identify vulnerabilities, test data protections, and harden applications against attack." },
-              { slug: "ai-augmented-qa", title: "AI-Augmented QA", description: "Use LLMs, machine learning, and predictive tools to transform how testing is done." }
+              { title: "Manual Testing & Analysis", description: "Design test cases, perform exploratory testing, and ensure product quality with a critical eye." },
+              { title: "Test Automation Engineering", description: "Build scalable, maintainable test frameworks for web, API, and mobile platforms." },
+              { title: "Performance & Load Testing", description: "Simulate traffic and optimize systems for resilience, speed, and uptime." },
+              { title: "QA Leadership & Strategy", description: "Define vision, mentor teams, and align QA goals to business outcomes." },
+              { title: "Security Testing", description: "Identify vulnerabilities, test data protections, and harden applications against attack." },
+              { title: "AI-Augmented QA", description: "Use LLMs, machine learning, and predictive tools to transform how testing is done." }
             ].map((d, i) => (
-              <Link key={i} to={`/disciplines/${d.slug}`} className="block">
-                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition hover:border-indigo-200 border border-transparent">
-                  <h3 className="text-xl font-semibold text-indigo-700 mb-2">{d.title}</h3>
-                  <p className="text-sm text-gray-600">{d.description}</p>
-                </div>
-              </Link>
+              <div key={i} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                <h3 className="text-xl font-semibold text-indigo-700 mb-2">{d.title}</h3>
+                <p className="text-sm text-gray-600">{d.description}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -108,45 +84,6 @@ export default function Index() {
             <div>
               <h3 className="text-lg font-semibold text-gray-800">Modern Practices</h3>
               <p className="text-sm text-gray-600">CI/CD, cloud-native testing, AI-in-QA — we teach what teams use today and tomorrow.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Roadmap Preview */}
-        <div className="mb-24 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Preview the Journey</h2>
-          <p className="text-gray-600 max-w-xl mx-auto mb-8">
-            Here's a glimpse at our structured roadmap. Start from fundamentals and advance through modern QA practices.
-          </p>
-          <div className="max-w-3xl mx-auto">
-            <div className="relative">
-              {/* Connecting line */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-indigo-200 -translate-y-1/2 z-0"></div>
-
-              {/* Steps */}
-              <div className="relative z-10 flex justify-between">
-                {[
-                  { name: "QA Fundamentals", icon: "📚" },
-                  { name: "Automation Basics", icon: "⚙️" },
-                  { name: "Playwright + CI/CD", icon: "🔄" },
-                  { name: "Advanced QA Practices", icon: "🚀" }
-                ].map((step, index) => (
-                  <div key={step.name} className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-indigo-100 border-4 border-white shadow-md flex items-center justify-center text-xl mb-2">
-                      {step.icon}
-                    </div>
-                    <div className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                      {step.name}
-                    </div>
-                    {index < 3 && (
-                      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 text-indigo-400 text-2xl"
-                           style={{ left: `${(index + 1) * 33 - 16}%` }}>
-                        →
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

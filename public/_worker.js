@@ -1,4 +1,4 @@
-// This is a minimal worker that proxies requests to the static assets
+// Enhanced worker for Remix applications on Cloudflare Pages
 export default {
   async fetch(request, env, ctx) {
     // Get the URL from the request
@@ -7,12 +7,28 @@ export default {
     // If the URL is for a static asset, serve it directly
     if (url.pathname.startsWith('/assets/') || 
         url.pathname.startsWith('/_assets/') || 
+        url.pathname.startsWith('/build/') || 
         url.pathname === '/favicon.ico' || 
         url.pathname === '/robots.txt') {
-      return fetch(request);
+      return env.ASSETS.fetch(request);
     }
     
-    // For all other requests, serve the index.html file
-    return fetch(new URL('/index.html', url.origin));
+    try {
+      // Try to fetch the actual resource first
+      const response = await env.ASSETS.fetch(request);
+      
+      // If the response is not a 404, return it
+      if (response.status !== 404) {
+        return response;
+      }
+      
+      // For 404 responses, serve the index.html file for client-side routing
+      return env.ASSETS.fetch(new URL('/index.html', url.origin));
+    } catch (error) {
+      console.error('Error in worker:', error);
+      
+      // Fallback to index.html for any errors
+      return env.ASSETS.fetch(new URL('/index.html', url.origin));
+    }
   }
 };
