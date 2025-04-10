@@ -110,8 +110,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Internal Server Error');
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
+const port = process.env.PORT || 8080;
+const host = '0.0.0.0';
+
+app.listen(port, host, () => {
+  console.log(`Express server listening on ${host}:${port}`);
   console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 });
