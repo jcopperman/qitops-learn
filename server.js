@@ -46,16 +46,27 @@ app.all(
   "*",
   (req, res, next) => {
     console.log('Handling Remix request:', req.url);
-    const handler = createRequestHandler({
-      build,
-      mode: process.env.NODE_ENV
-    });
-    return handler(req, res, next).catch(error => {
-      console.error('Error handling request:', error);
+    try {
+      const handler = createRequestHandler({
+        build,
+        mode: process.env.NODE_ENV
+      });
+      return handler(req, res, next).catch(error => {
+        console.error('Error handling request:', error);
+        next(error);
+      });
+    } catch (error) {
+      console.error('Error creating request handler:', error);
       next(error);
-    });
+    }
   }
 );
+
+// Fallback: Serve index.html for all routes that don't match anything else
+app.use('*', (req, res) => {
+  console.log('Fallback: Serving index.html for path:', req.path);
+  res.sendFile(join(BUILD_DIR, 'index.html'));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
