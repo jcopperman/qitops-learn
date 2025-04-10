@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/remix";
-import { json, type LoaderFunction } from "@remix-run/cloudflare";
+import { json, type LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import ProtectedRoute from "~/components/Auth/ProtectedRoute";
 

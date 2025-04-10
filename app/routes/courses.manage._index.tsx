@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@remix-run/node";
 import MainLayout from "~/components/Layout/MainLayout";
 import ProtectedRoute from "~/components/Auth/ProtectedRoute";
 import { UserRole } from "~/middleware/auth";
@@ -21,7 +21,7 @@ export default function ManageCoursesPage() {
               Create and manage your QA training courses
             </p>
           </div>
-          
+
           <div className="flex justify-end">
             <button
               type="button"

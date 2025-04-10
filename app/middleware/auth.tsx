@@ -1,6 +1,6 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { redirect } from "@remix-run/cloudflare";
-import type { DataFunctionArgs } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/node";
+import type { DataFunctionArgs } from "@remix-run/node";
 
 export enum UserRole {
   STUDENT = "student",
@@ -16,7 +16,7 @@ export const authenticatedMiddleware = async (args: DataFunctionArgs) => {
 
   // Public paths that don't require authentication
   const publicPaths = ["/", "/auth/sign-in", "/auth/sign-up"];
-  
+
   // Allow access to public paths
   if (publicPaths.includes(path)) {
     return null;

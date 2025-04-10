@@ -1,5 +1,5 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
-import { json } from "@remix-run/cloudflare";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import MainLayout from "~/components/Layout/MainLayout";
 import ProtectedRoute from "~/components/Auth/ProtectedRoute";

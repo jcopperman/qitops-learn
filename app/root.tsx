@@ -5,7 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/cloudflare";
+import type { LinksFunction } from "@remix-run/node";
 import { ClerkApp } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { LazyMotion, domAnimation, m } from "framer-motion";
@@ -49,8 +49,8 @@ function App() {
 }
 
 // Use import.meta.env instead of process.env
-export default ClerkApp(App, { 
-  publishableKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY 
+export default ClerkApp(App, {
+  publishableKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 });
 
 
