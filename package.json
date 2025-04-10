@@ -15,8 +15,9 @@
     "@clerk/themes": "^2.2.26",
     "@cloudflare/workers-types": "^4.20250327.0",
     "@netlify/functions": "^2.6.0",
-    "@remix-run/netlify": "^2.16.3",
-    "@remix-run/react": "^2.16.3",
+    "@remix-run/netlify": "^2.4.1",
+    "@remix-run/node": "^2.4.1",
+    "@remix-run/react": "^2.4.1",
     "clsx": "^2.1.0",
     "framer-motion": "^12.6.2",
     "isbot": "^4.1.0",
@@ -25,7 +26,7 @@
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.16.3",
+    "@remix-run/dev": "^2.4.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
