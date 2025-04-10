@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import MainLayout from "~/components/Layout/MainLayout";
+import SimpleLayout from "~/components/Layout/SimpleLayout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <MainLayout>
+    <SimpleLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
         <div className="text-center mb-20">
@@ -100,6 +100,6 @@ export default function Index() {
           </Link>
         </div>
       </div>
-    </MainLayout>
+    </SimpleLayout>
   );
 }
