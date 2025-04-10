@@ -4,20 +4,21 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build && npm run copy-files",
-    "copy-files": "cp public/index.html build/client/index.html && cp public/index.html build/client/404.html",
+    "build": "remix vite:build",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "netlify dev",
+    "start": "node server.js",
     "typecheck": "tsc"
   },
   "dependencies": {
     "@clerk/remix": "^4.5.11",
     "@clerk/themes": "^2.2.26",
-    "@remix-run/netlify": "^2.4.1",
+    "@remix-run/express": "^2.16.5",
     "@remix-run/node": "^2.4.1",
     "@remix-run/react": "^2.4.1",
     "clsx": "^2.1.0",
+    "compression": "^1.8.0",
+    "express": "^4.21.2",
     "framer-motion": "^12.6.2",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
@@ -26,7 +27,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.4.1",
-    "@remix-run/netlify": "^1.19.3",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
