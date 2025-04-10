@@ -74,6 +74,104 @@ app.use(express.static(BUILD_DIR, {
   }
 }));
 
+// Explicitly serve assets directory with a more permissive approach
+app.use('/assets', (req, res, next) => {
+  console.log('Asset request:', req.url);
+  // Try to serve the asset directly
+  express.static(join(BUILD_DIR, 'assets'), {
+    maxAge: '1y',
+    immutable: true
+  })(req, res, (err) => {
+    if (err) {
+      console.log('Error serving asset:', err);
+      // If there's an error, log it and continue to the next middleware
+      next();
+    }
+  });
+});
+
+// Handle specific asset requests that might have different hashes
+app.get('/assets/index-Bc8ThY2o.js', (req, res) => {
+  console.log('Redirecting to available index.js file');
+  // Find any index-*.js file in the assets directory
+  try {
+    const assetFiles = fs.readdirSync(join(BUILD_DIR, 'assets'));
+    const indexFile = assetFiles.find(file => file.startsWith('index-') && file.endsWith('.js'));
+    if (indexFile) {
+      res.redirect(`/assets/${indexFile}`);
+    } else {
+      res.status(404).send('Asset not found');
+    }
+  } catch (error) {
+    console.error('Error finding index file:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Handle CSS file requests
+app.get('/assets/tailwind-CwPCyDOi.css', (req, res) => {
+  console.log('Redirecting to available tailwind CSS file');
+  try {
+    const assetFiles = fs.readdirSync(join(BUILD_DIR, 'assets'));
+    const cssFile = assetFiles.find(file => file.startsWith('tailwind-') && file.endsWith('.css'));
+    if (cssFile) {
+      res.redirect(`/assets/${cssFile}`);
+    } else {
+      res.status(404).send('CSS file not found');
+    }
+  } catch (error) {
+    console.error('Error finding CSS file:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Handle browser.js request
+app.get('/assets/browser-CxQKvkkr.js', (req, res) => {
+  console.log('Redirecting to available browser.js file');
+  // Find any browser-*.js file in the assets directory
+  try {
+    const assetFiles = fs.readdirSync(join(BUILD_DIR, 'assets'));
+    const browserFile = assetFiles.find(file => file.startsWith('browser-') && file.endsWith('.js'));
+    if (browserFile) {
+      res.redirect(`/assets/${browserFile}`);
+    } else {
+      res.status(404).send('Asset not found');
+    }
+  } catch (error) {
+    console.error('Error finding browser file:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Generic handler for any asset with a hash mismatch
+app.get('/assets/:prefix-:hash.:ext', (req, res, next) => {
+  const { prefix, ext } = req.params;
+  console.log(`Generic asset handler for ${prefix}-*.${ext}`);
+
+  // Skip if this is already a valid path
+  if (fs.existsSync(join(BUILD_DIR, 'assets', `${req.path.substring(1)}`))) {
+    return next();
+  }
+
+  try {
+    const assetFiles = fs.readdirSync(join(BUILD_DIR, 'assets'));
+    const matchingFile = assetFiles.find(file => {
+      return file.startsWith(`${prefix}-`) && file.endsWith(`.${ext}`);
+    });
+
+    if (matchingFile) {
+      console.log(`Found matching file: ${matchingFile}`);
+      res.redirect(`/assets/${matchingFile}`);
+    } else {
+      console.log(`No matching file found for ${prefix}-*.${ext}`);
+      next();
+    }
+  } catch (error) {
+    console.error(`Error finding ${prefix} file:`, error);
+    next();
+  }
+});
+
 // Handle Remix requests
 app.all(
   "*",
