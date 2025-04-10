@@ -35,10 +35,43 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static assets
+// Add a test route that returns plain HTML
+app.get('/test-page', (req, res) => {
+  console.log('Serving test page');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Test Page</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+          h1 { color: #333; }
+        </style>
+      </head>
+      <body>
+        <h1>Test Page</h1>
+        <p>If you can see this, the Express server is working correctly!</p>
+        <p>Current time: ${new Date().toISOString()}</p>
+        <p>This is a direct response from the server, bypassing Remix.</p>
+      </body>
+    </html>
+  `);
+});
+
+// Serve static assets with different cache settings based on file type
 app.use(express.static(BUILD_DIR, {
-  maxAge: "1y",
-  immutable: true
+  setHeaders: (res, path) => {
+    // Don't cache HTML files
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-store, max-age=0');
+    } else {
+      // Cache other assets for a year
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
 }));
 
 // Handle Remix requests
@@ -65,6 +98,9 @@ app.all(
 // Fallback: Serve index.html for all routes that don't match anything else
 app.use('*', (req, res) => {
   console.log('Fallback: Serving index.html for path:', req.path);
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.sendFile(join(BUILD_DIR, 'index.html'));
 });
 
