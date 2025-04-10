@@ -49,8 +49,15 @@ function App() {
 }
 
 // Use import.meta.env instead of process.env
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || '';
+
+// Check if we have a publishable key
+if (!publishableKey) {
+  console.warn('No Clerk publishable key found. Authentication will not work.');
+}
+
 export default ClerkApp(App, {
-  publishableKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+  publishableKey
 });
 
 
