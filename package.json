@@ -8,7 +8,8 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "node server.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@clerk/remix": "^4.5.11",
