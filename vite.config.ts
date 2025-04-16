@@ -19,6 +19,14 @@ export default defineConfig({
   optimizeDeps: {
     include: ['framer-motion'],
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true,
+    },
+  },
 });
 
 

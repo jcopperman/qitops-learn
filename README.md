@@ -128,13 +128,29 @@ app/
 
 ## Development
 
+### Using npm
+
 Run the dev server:
 
 ```shellscript
 npm run dev
 ```
 
+### Using Docker (Recommended)
+
+The project includes Docker configuration for easy development and deployment:
+
+```shellscript
+# Start the development environment
+docker-compose up app
+
+# Or run a production-like environment
+docker-compose --profile prod up prod
+```
+
 ## Deployment
+
+### Standard Deployment
 
 First, build your app for production:
 
@@ -148,11 +164,34 @@ Then run the app in production mode:
 npm start
 ```
 
-Now you'll need to pick a host to deploy it to.
+### Docker Deployment
 
-### DIY
+Build and run the Docker image:
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+```sh
+# Build the image
+docker build -t qitops-learn:latest .
+
+# Run the container
+docker run -p 8080:8080 \
+  -e VITE_CLERK_PUBLISHABLE_KEY=your_key \
+  -e CLERK_PUBLISHABLE_KEY=your_key \
+  -e CLERK_SECRET_KEY=your_secret_key \
+  qitops-learn:latest
+```
+
+### Deployment Options
+
+This project is designed to be deployable anywhere that supports Docker or Node.js. See the [DEPLOYMENT.md](DEPLOYMENT.md) file for detailed instructions on deploying to various platforms including:
+
+- Self-hosted physical servers
+- Fly.io
+- Digital Ocean
+- AWS
+- Google Cloud
+- And more
+
+### Build Output
 
 Make sure to deploy the output of `npm run build`
 

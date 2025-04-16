@@ -29,13 +29,18 @@ const app = express();
 // Use compression for all requests
 app.use(compression());
 
-// Set port for Heroku deployment
-const port = process.env.PORT || 3000;
+// Set port for deployment
+// Note: This is defined again at the bottom of the file
 
 // Add request logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
+});
+
+// Add a health check endpoint for container orchestration
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Add a test route that returns plain HTML
@@ -59,6 +64,7 @@ app.get('/test-page', (req, res) => {
         <p>If you can see this, the Express server is working correctly!</p>
         <p>Current time: ${new Date().toISOString()}</p>
         <p>This is a direct response from the server, bypassing Remix.</p>
+        <p>Environment: ${process.env.NODE_ENV || 'development'}</p>
       </body>
     </html>
   `);
